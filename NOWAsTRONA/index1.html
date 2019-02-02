@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+
+<head>
+<meta charset="utf-8"/>
+<title>JAKOŚĆ POWIETRZA KRYRY</title>
+
+<script src="jquery-3.3.1.min.js"></script>
+
+<script>
+
+function odswierzanieCzasu()
+{
+var dzisiaj = new Date();
+var dzien = dzisiaj.getDate();
+if(dzien<10) dzien = "0"+dzien;
+var miesiac = dzisiaj.getMonth()+1;
+if(miesiac<10) miesiac = "0"+miesiac;
+var rok = dzisiaj.getFullYear();
+
+var godzina = dzisiaj.getHours();
+if(godzina<10) godzina = "0"+godzina;
+var minuta = dzisiaj.getMinutes();
+if(minuta<10) minuta = "0"+minuta;
+var sekunda = dzisiaj.getSeconds();
+if(sekunda<10) sekunda = "0"+sekunda;
+
+document.getElementById("data").innerHTML = dzien+"-"+miesiac+"-"+rok;
+document.getElementById("zegar").innerHTML = godzina+":"+minuta+":"+sekunda;
+
+setTimeout("odswierzanieCzasu()",1000);
+}
+</script>
+
+<meta name="description" content="Oto parametry jakości powietrza w miejscowości Kryry"/>
+<meta name="keywords" content="kryry, pogoda, smog, jakosc powietrza, temperatura, cisnienie, wilgotnosc, pm1, pm2.5, pm10"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<link href="https://fonts.googleapis.com/css?family=Charm" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Aleo" rel="stylesheet">
+</head>
+
+<body onload="odswierzanieCzasu();">
+
+<a id="zegar"></a>
+<a id="tytul">Jakość powietrza w Kryrach</a>
+<a id="data"></a>
+
+
+
+<div id="glowny1">
+ <ul class="czujniki"> 
+  <li><a id="temp">Temperatura powietrza</a></li>
+    
+  <li><a id="wilg">Wilgotność powietrza</a></li>
+   
+  <li><a id="cis">Ciśnienie</a></li>
+  
+  <li><a id="tempS">Temperatura w słońcu</a></li>
+  
+  <li><a id="tempG">Temperatura przy gruncie</a></li>
+  
+  <li><a id="pm1">PM 1</a></li>
+      
+  <li><a id="pm2">PM 2,5</a></li>
+    
+  <li><a id="pm10">PM 10</a></li>
+  </ul>
+</div>
+
+<div id="glowny2">
+    <div id="odczytCzujnik"></div>
+	<script>$('#odczytCzujnik').hide();</script>
+	<div id="wyniki"></div>
+	<script>$('#wyniki').hide();</script>
+  
+	 
+  <div id="odczytGlowny">Witaj :-) <br/> <br/> Kliknij na wybrany parametr powietrza po lewej stronie, aby zobaczyć aktualny wynik odczytu...</div>
+  </div>
+  <div style="clear:both;"></div>
+<div id="stopka">2019 Copyright by Soyer. All rights reserved. :-) </div>
+
+
+
+
+<script>
+ $('#temp').click(function(){
+ $('#odczytGlowny').hide();
+ $('#odczytCzujnik').show();
+ $('#wyniki').show();
+ $("#odczytCzujnik").html("Aktualna temperatura wynosi: "); 
+ $.ajax({url: "getData.php", data:{nazwa: 'tempZew', mian:'*C', baza:'mega'}, success: function(res){$('#wyniki').text(res);}});
+   });
+
+ $('#wilg').click(function(){
+  $('#odczytGlowny').hide();
+  $('#odczytCzujnik').show();
+  $('#wyniki').show();
+  $("#odczytCzujnik").html("Aktualna wilgotność wynosi: ");
+  $.ajax({url: "getData.php", data:{nazwa: 'wilgZew', mian:'%RH', baza:'mega'}, success: function(res){$('#wyniki').text(res);}});
+   });
+   
+ $('#cis').click(function(){
+ $('#odczytGlowny').hide();
+ $('#odczytCzujnik').show();
+ $('#wyniki').show();
+ $("#odczytCzujnik").html("Aktualne ciśnienie wynosi: ");
+ $.ajax({url: "getData.php", data:{nazwa: 'cisnienie', mian:'hPa', baza:'mega'}, success: function(res){$('#wyniki').text(res);}});
+   });
+   
+ $('#tempG').click(function(){
+ $('#odczytGlowny').hide();
+ $('#odczytCzujnik').show();
+ $('#wyniki').show();
+ $("#odczytCzujnik").html("Temperatura przy gruncie wynosi: ");
+ $.ajax({url: "getData.php", data:{nazwa: 'tempGrunt', mian:' *C', baza:'mega'}, success: function(res){$('#wyniki').text(res);}});
+   });
+   
+ $('#tempS').click(function(){
+ $('#odczytGlowny').hide();
+ $('#odczytCzujnik').show();
+ $('#wyniki').show();
+ $("#odczytCzujnik").html("Temperatura w słońcu wynosi: ");
+ $.ajax({url: "getData.php", data:{nazwa: 'tempSlonce', mian:' *C', baza:'mega'}, success: function(res){$('#wyniki').text(res);}});
+   });
+   
+ $('#pm1').click(function(){
+ $('#odczytGlowny').hide();
+ $('#odczytCzujnik').show();
+ $('#wyniki').show();
+ $("#odczytCzujnik").html("Aktualne stężenie PM 1 wynosi: ");
+ $.ajax({url: "getData.php", data:{nazwa: 'pm1', mian:'µg/m³', baza:'pms'}, success: function(res){$('#wyniki').text(res);}});
+   });
+   
+ $('#pm2').click(function(){
+ $('#odczytGlowny').hide();
+ $('#odczytCzujnik').show();
+ $('#wyniki').show();
+ $("#odczytCzujnik").html("Aktualne stężenie PM 2,5 wynosi: ");
+ $.ajax({url: "getData.php", data:{nazwa: 'pm2', mian:'µg/m³', baza:'pms'}, success: function(res){$('#wyniki').text(res);}});
+   });
+   
+ $('#pm10').click(function(){
+ $('#odczytGlowny').hide();
+ $('#odczytCzujnik').show();
+ $('#wyniki').show();
+ $("#odczytCzujnik").html("Aktualne stężenie PM 10 wynosi: ");
+ $.ajax({url: "getData.php", data:{nazwa: 'pm10', mian:'µg/m³', baza:'pms'}, success: function(res){$('#wyniki').text(res);}});
+   });
+</script>
+
+</body>
+
+</html>
